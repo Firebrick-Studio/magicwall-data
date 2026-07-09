@@ -2,9 +2,9 @@ import 'dart:io';
 import 'dart:convert';
 
 void main() {
-  final wallpapersDir = Directory('wallpapers');
+  final wallpapersDir = Directory('Wallpapers');
   if (!wallpapersDir.existsSync()) {
-    print('wallpapers directory not found');
+    print('Wallpapers directory not found');
     return;
   }
 
@@ -13,13 +13,14 @@ void main() {
   final categories = wallpapersDir.listSync().whereType<Directory>();
   for (var category in categories) {
     final categoryName = category.uri.pathSegments[category.uri.pathSegments.length - 2];
+    final encodedCategoryName = Uri.encodeComponent(categoryName);
     
     final jsonFiles = category.listSync().whereType<File>().where((f) => f.path.endsWith('.json'));
     for (var jsonFile in jsonFiles) {
       try {
         final content = jsonFile.readAsStringSync();
         final Map<String, dynamic> metadata = jsonDecode(content);
-        metadata['url'] = 'https://raw.githubusercontent.com/Firebrick-Studio/magicwall-data/main/wallpapers/$categoryName/${metadata['id']}.jpg';
+        metadata['url'] = 'https://raw.githubusercontent.com/Firebrick-Studio/magicwall-data/main/Wallpapers/$encodedCategoryName/${metadata['id']}.jpg';
         allWallpapers.add(metadata);
       } catch (e) {
         print('Error reading ${jsonFile.path}: $e');

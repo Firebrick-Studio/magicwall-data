@@ -2,8 +2,11 @@ import 'dart:io';
 import 'dart:convert';
 
 void main() {
-  final dir = Directory('wallpapers/ai');
-  if (!dir.existsSync()) return;
+  final dir = Directory('Wallpapers/Ai Generated');
+  if (!dir.existsSync()) {
+    print('Directory not found');
+    return;
+  }
 
   final files = dir.listSync().whereType<File>().where((f) => f.path.endsWith('.jpg') || f.path.endsWith('.png'));
 
@@ -16,7 +19,7 @@ void main() {
       final metadata = {
         'id': id,
         'title': 'AI Wallpaper',
-        'category': 'ai',
+        'category': 'Ai Generated',
         'author': 'Unknown',
         'source_url': '',
         'license': 'CC0',
